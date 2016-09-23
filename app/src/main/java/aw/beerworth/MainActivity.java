@@ -13,6 +13,7 @@ import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    //variable declarations
     Button calcButton;
     EditText beerPrice, abv, numBottles, bottleVol;
     double dBeerPrice, dAbv, dBottleVol;
@@ -45,12 +46,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dAbv        = parseDouble(abv.getText().toString());
 
         double result = calcPricePerOz(dBeerPrice, iNumBottles, dBottleVol, dAbv);
+
+        //cast back to string and limit decimals
         String strResult = Double.toString(result);
         strResult = strResult.substring(0, Math.min(strResult.length(), 7));
+
+        //send result to textview
         pricePerOz.setText(strResult);
 
     }
 
+    //calculates price for one fl.oz. of alcohol
     public double calcPricePerOz(double dBeerPrice, int iNumBottles, double dBottleVol, double dAbv) {
         double decAbv = dAbv/100;
         double totAlc = dBottleVol * iNumBottles * decAbv;
