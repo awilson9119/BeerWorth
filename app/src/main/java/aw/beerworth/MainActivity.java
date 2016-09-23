@@ -1,7 +1,10 @@
 package aw.beerworth;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +17,13 @@ import static java.lang.Integer.parseInt;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     //variable declarations
-    Button calcButton;
+    Button calcButton, baButton;
     EditText beerPrice, abv, numBottles, bottleVol;
     double dBeerPrice, dAbv, dBottleVol;
     int iNumBottles;
-    TextView pricePerOz;
+    TextView pricePerOz, errorMsg;
+
+    String eMsg = "You messed up the input, dummy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,30 +35,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         numBottles = (EditText) findViewById(R.id.numBottles);
         bottleVol  = (EditText) findViewById(R.id.bottleVol);
         abv        = (EditText) findViewById(R.id.abv);
+        baButton   = (Button)   findViewById(R.id.baLinkButton);
         calcButton = (Button)   findViewById(R.id.calcButton);
+        errorMsg   = (TextView) findViewById(R.id.errorMsg);
         pricePerOz = (TextView) findViewById(R.id.pricePerOz);
 
-        //set button listener
+        //set button listeners
         calcButton.setOnClickListener(this);
+
+        baButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("http://www.beeradvocate.com"));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
-        //cast input to correct types
-        dBeerPrice  = parseDouble(beerPrice.getText().toString());
-        iNumBottles = parseInt(numBottles.getText().toString());
-        dBottleVol  = parseDouble(bottleVol.getText().toString());
-        dAbv        = parseDouble(abv.getText().toString());
 
-        double result = calcPricePerOz(dBeerPrice, iNumBottles, dBottleVol, dAbv);
+        if (inputsEmpty(beerPrice, numBottles, bottleVol, abv)) {
+            errorMsg.setText(eMsg);
+        }
+        else {
 
-        //cast back to string and limit decimals
-        String strResult = Double.toString(result);
-        strResult = strResult.substring(0, Math.min(strResult.length(), 7));
+            //cast input to correct types
+            dBeerPrice  = parseDouble(beerPrice.getText().toString());
+            iNumBottles = parseInt(numBottles.getText().toString());
+            dBottleVol  = parseDouble(bottleVol.getText().toString());
+            dAbv        = parseDouble(abv.getText().toString());
 
-        //send result to textview
-        pricePerOz.setText(strResult);
+            if (inputsOk(dBeerPrice, iNumBottles, dBottleVol, dAbv)) {
+                double result = calcPricePerOz(dBeerPrice, iNumBottles, dBottleVol, dAbv);
 
+                //cast back to string and limit decimals
+                String strResult = Double.toString(result);
+                strResult = strResult.substring(0, Math.min(strResult.length(), 7));
+
+                //send result to textview
+                errorMsg.setText("");
+                pricePerOz.setText(strResult);
+            }
+            else {
+                errorMsg.setText(eMsg);
+            }
+        }
     }
 
     //calculates price for one fl.oz. of alcohol
@@ -63,4 +92,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         double pricePerOz = dBeerPrice/totAlc;
         return pricePerOz;
     }
+
+    //returns true if an input is empty
+    public boolean inputsEmpty(EditText beerPrice, EditText numBottles, EditText bottleVol, EditText abv) {
+        return  TextUtils.isEmpty(beerPrice.getText().toString()) ||
+                TextUtils.isEmpty(numBottles.getText().toString()) ||
+                TextUtils.isEmpty(bottleVol.getText().toString()) ||
+                TextUtils.isEmpty(abv.getText().toString());
+    }
+
+    //returns true if the inputs are non-negative
+    public boolean inputsOk(double beerPrice, int numBottles, double bottleVol, double abv) {
+        return (beerPrice > 0) && (numBottles > 0) && (bottleVol > 0) && (abv > 0);
+    }
+
 }
