@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText beerPrice, abv, numBottles, bottleVol;
     double dBeerPrice, dAbv, dBottleVol;
     int iNumBottles;
-    TextView pricePerOz, errorMsg;
+    TextView pricePerOz, errorMsg, prev1, prev2, prev3, prev4;
 
     String eMsg = "You messed up the input, dummy";
 
@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calcButton = (Button)   findViewById(R.id.calcButton);
         errorMsg   = (TextView) findViewById(R.id.errorMsg);
         pricePerOz = (TextView) findViewById(R.id.pricePerOz);
+        prev1      = (TextView) findViewById(R.id.prev1);
+        prev2      = (TextView) findViewById(R.id.prev2);
+        prev3      = (TextView) findViewById(R.id.prev3);
+        prev4      = (TextView) findViewById(R.id.prev4);
 
         //set button listeners
         calcButton.setOnClickListener(this);
@@ -75,8 +79,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String strResult = Double.toString(result);
                 strResult = strResult.substring(0, Math.min(strResult.length(), 7));
 
-                //send result to textview
+                //send result to textview and move previous results down the list
                 errorMsg.setText("");
+                prev4.setText(prev3.getText().toString());
+                prev3.setText(prev2.getText().toString());
+                prev2.setText(prev1.getText().toString());
+                prev1.setText(pricePerOz.getText().toString());
                 pricePerOz.setText(strResult);
             }
             else {
@@ -87,10 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //calculates price for one fl.oz. of alcohol
     public double calcPricePerOz(double dBeerPrice, int iNumBottles, double dBottleVol, double dAbv) {
-        double decAbv = dAbv/100;
-        double totAlc = dBottleVol * iNumBottles * decAbv;
-        double pricePerOz = dBeerPrice/totAlc;
-        return pricePerOz;
+        double decimalAbv = dAbv/100;
+        double totAlc = dBottleVol * iNumBottles * decimalAbv;
+        return dBeerPrice/totAlc;
     }
 
     //returns true if an input is empty
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextUtils.isEmpty(abv.getText().toString());
     }
 
-    //returns true if the inputs are non-negative
+    //returns true if the inputs are all positive
     public boolean inputsOk(double beerPrice, int numBottles, double bottleVol, double abv) {
         return (beerPrice > 0) && (numBottles > 0) && (bottleVol > 0) && (abv > 0);
     }
