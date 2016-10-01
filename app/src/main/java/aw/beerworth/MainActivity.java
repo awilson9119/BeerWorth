@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //cast back to string and limit decimals
                 String strResult = Double.toString(result);
-                strResult = strResult.substring(0, Math.min(strResult.length(), 7));
+                strResult = strResult.substring(0, Math.min(strResult.length(), 6));
 
                 //send result to textview and move previous results down the list
                 errorMsg.setText("");

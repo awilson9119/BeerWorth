@@ -92,10 +92,9 @@
 
         <TextView
             android:text="@string/percent_sign"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView6"
-            android:layout_weight="0.46" />
+            android:id="@+id/textView6" />
 
     </LinearLayout>
 
@@ -121,34 +120,34 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.04"
+        android:layout_height="wrap_content"
         android:id="@+id/errorMsg" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
 
         <TextView
             android:text="@string/dollar_sign"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="0dp"
             android:id="@+id/textView"
-            android:textSize="30sp"/>
+            android:textSize="40sp"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/pricePerOz"
-            android:textSize="36sp" />
+            android:textSize="40sp" />
     </LinearLayout>
 
     <TextView
         android:text="@string/per_floz"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:id="@+id/textView2"
         android:textSize="24sp" />
 

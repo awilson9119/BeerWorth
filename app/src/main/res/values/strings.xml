@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BeerWorth</string>
     <string name="price_hint">Price</string>
-    <string name="dollars">Dollars</string>
+    <string name="dollars">dollars</string>
     <string name="volume_hint">Bottle Volume</string>
     <string name="fl_oz">fl. oz.</string>
     <string name="num_bottles_hint">Bottles Per Case</string>
@@ -9,8 +9,8 @@
     <string name="abv_hint">ABV</string>
     <string name="percent_sign">%</string>
     <string name="calc_button">CALCULATE</string>
-    <string name="ba_button">Beer Advocate</string>
+    <string name="ba_button">beeradvocate.com</string>
     <string name="dollar_sign">$</string>
     <string name="per_floz">per fl. oz. alcohol</string>
-    <string name="prev_calcs">Previous Calculations</string>
+    <string name="prev_calcs">Previous Calculations:</string>
 </resources>
